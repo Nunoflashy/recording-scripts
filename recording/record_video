@@ -23,8 +23,6 @@ function start {
 
 function stop {
 	[[ -n "$(pidof ffmpeg)" ]] && pkill -SIGINT ffmpeg && exit 0
-	[[ -n "$(pidof ffmpeg)" ]] && pkill -SIGQUIT ffmpeg && exit 1
-	[[ -n "$(pidof ffmpeg)" ]] && pkill -SIGKILL ffmpeg && exit 33
 }
 
 # If we're not currently recording
