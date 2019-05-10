@@ -14,10 +14,9 @@ function start {
 	-f x11grab \
 	-i :0.0+$POSITION \
 	-c:v h264_nvenc \
-	-b:v 50M \
+	-b:v 16M \
 	-preset slow \
 	"$HOME/Videos/$title/$title $(date +"%d-%m-%Y - %T")".mkv
-	#$HOME/Videos/"$title"/"${title} $(date +"%d-%m-%Y - %T")".mkv
 }
 
 
