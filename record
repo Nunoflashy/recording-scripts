@@ -1,0 +1,49 @@
+#!/bin/sh
+
+
+function usage {
+	echo "Usage: $0 [option]
+	Options:
+	    --audio		Only record audio from the specified input
+	    --video		Only record video from the specified input
+	    --all		Record both audio and video
+	"
+exit 1
+}
+
+# Get the audio script path and execute it if it exists
+function record_audio {
+	RECORD_AUDIO_SCRIPT=$SCRIPTS/recording/record_audio
+	[[ -f $RECORD_AUDIO_SCRIPT ]] && . $RECORD_AUDIO_SCRIPT&
+}
+
+# Get the video script path and execute it if it exists
+function record_video {
+	RECORD_VIDEO_SCRIPT=$SCRIPTS/recording/record_video
+	[[ -f $RECORD_VIDEO_SCRIPT ]] && . $RECORD_VIDEO_SCRIPT&
+}
+
+while test $# -gt 0; do
+	case "$1" in
+		--audio)
+			record_audio
+			exit 0
+			;;
+		--video)
+			record_video
+			exit 0
+			;;
+		--all)
+			record_audio
+			record_video
+			exit 0
+			;;
+		*)
+			usage
+			exit 1
+			;;
+	esac
+done
+
+usage
+exit 1
