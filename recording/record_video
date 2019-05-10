@@ -38,7 +38,3 @@ if [[ -z "$(pidof ffmpeg)" ]]; then
 else
 	stop
 fi
-
-# Dark Souls III 08.14.2017 - 01.15.27.02
-
-# /home/nuno/Videos/nuno@Nuno-PC:~/Videos/nuno@Nuno-PC:~/Videos 09-05-2019 - 00:42:27.mkv: No such file or directory
