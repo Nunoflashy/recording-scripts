@@ -1,0 +1,82 @@
+#!/bin/sh
+
+title="$(xdotool getactivewindow getwindowname)"
+
+POSITION="$(xrandr | grep primary | awk '{print $4}' | cut -c11-)"
+RESOLUTION="$(xrandr | grep primary | awk '{print $4}' | cut -d"+" -f1)"
+FPS=60
+
+function print_usage {
+	echo "Usage: $0 [option]
+	Options:
+	--audio             Only record audio from the specified input
+	--video             Only record video from the specified input
+	--all               Record both audio and video"
+
+}
+
+function record_audio {
+	ffmpeg -y \
+	-f pulse \
+	-i default \
+	-c:a flac \
+	"$HOME/Videos/$title/$title $(date +"%d-%m-%Y - %T")".flac
+	#$HOME/Videos/"$title"/"${title} $(date +"%d-%m-%Y - %T")".flac
+}
+
+function record_video {
+	ffmpeg -y \
+	-video_size $RESOLUTION \
+	-framerate $FPS \
+	-f x11grab \
+	-i :0.0+$POSITION \
+	-c:v h264_nvenc \
+	-b:v 50M \
+	-preset slow \
+	"$HOME/Videos/$title/$title $(date +"%d-%m-%Y - %T")".mkv
+}
+
+function stop {
+	[[ -n "$(pidof ffmpeg)" ]] && pkill -SIGINT ffmpeg && exit 0
+	[[ -n "$(pidof ffmpeg)" ]] && pkill -SIGQUIT ffmpeg && exit 1
+	[[ -n "$(pidof ffmpeg)" ]] && pkill -SIGKILL ffmpeg && exit 33
+}
+
+
+
+if [[ -z "$(pidof ffmpeg)" ]]; then
+
+	# I had a check here to detect whether or not the
+	# directory was already created, but it gave me problems
+	# with some windows, inverting the logic and not creating
+	# the directory if it did not exist.
+	mkdir "$HOME/Videos/$title"
+	
+	while test $# -gt 0; do
+	case "$1" in
+		--audio)
+			record_audio
+			break
+			;;
+		--video)
+			record_video
+			break
+			;;
+		--all)
+			record_audio
+			record_video
+			break
+			;;
+		*)
+			print_usage
+			break
+			;;
+	done
+	
+else
+	stop
+fi
+
+# Dark Souls III 08.14.2017 - 01.15.27.02
+
+# /home/nuno/Videos/nuno@Nuno-PC:~/Videos/nuno@Nuno-PC:~/Videos 09-05-2019 - 00:42:27.mkv: No such file or directory
