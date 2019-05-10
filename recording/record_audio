@@ -8,7 +8,6 @@ function start {
 	-i default \
 	-c:a flac \
 	"$HOME/Videos/$title/$title $(date +"%d-%m-%Y - %T")".flac
-	#$HOME/Videos/"$title"/"${title} $(date +"%d-%m-%Y - %T")".flac
 }
 
 function stop {
