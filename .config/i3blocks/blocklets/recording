@@ -5,7 +5,7 @@ RECORDING="$(cat $VAR)"
 
 function setup {
 	touch $VAR
-	echo 1 > $VAR
+	echo 0 > $VAR
 }
 
 function displayAudioInfo {
