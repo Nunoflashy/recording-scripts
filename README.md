@@ -36,94 +36,21 @@ Blocklets in i3blocks config:
 
 ```
 [audio_recording]
+command=~/.config/i3blocks/blocklets/recording --audio
 align=center
 color=#4286f4
 separator=false
 signal=3
 
-[recording]
+[video_recording]
+command=~/.config/i3blocks/blocklets/recording --all
 align=center
 color=#F44242
 separator=false
 signal=2
 ```
 
-With our blocklets added into the config, now we actually need to make them.
-Thankfully it's not that complicated, here's how I have mine set up:
-
-audio_recording
-```bash
-#!/bin/bash
-
-VAR="$SCRIPTS/recording/.rec"
-RECORDING="$(cat $VAR)"
-
-function setup {
-	touch $VAR
-	echo 1 > $VAR
-}
-
-# Toggle the variable so the state changes each time this is executed
-# If it's on, it will be off on the next execution, and vice versa.
-function toggle {
-	if [[ $RECORDING = 0 ]]; then
-		echo 1 > $VAR
-	elif [[ $RECORDING = 1 ]]; then
-		echo 0 > $VAR
-	fi
-}
-
-if [[ ! -f $VAR ]]; then
-	setup
-fi
-
-toggle
-
-if [[ "$RECORDING" = 0 ]]; then
-	# Recording should begin here
-	printf "⏺ AUDIO"
-fi
-```
-
-and here's the one for video:
-
-recording
-```bash
-#!/bin/bash
-
-VAR="$SCRIPTS/recording/.rec"
-RECORDING="$(cat $VAR)"
-
-function setup {
-	touch $VAR
-	echo 1 > $VAR
-}
-
-# Toggle the variable so the state changes each time this is executed
-# If it's on, it will be off on the next execution, and vice versa.
-function toggle {
-	if [[ $RECORDING = 0 ]]; then
-		echo 1 > $VAR
-	elif [[ $RECORDING = 1 ]]; then
-		echo 0 > $VAR
-	fi
-}
-
-if [[ ! -f $VAR ]]; then
-	setup
-fi
-
-toggle
-
-if [[ "$RECORDING" = 0 ]]; then
-	# Recording should begin here
-	printf "⏺ REC"
-fi
-
-```
-
-Now admittedly it's not the most elegant solution, I could probably use only one script and pass an argument for audio and another for video, which I might do in the future.
-Another change I would like to make is to avoid using a temporary file as a variable, but I haven't found a solution for that yet.
+One change I would like to make is to avoid using a temporary file as a variable, but I haven't found a solution for that yet.
 
 And here's the finished product.
 
