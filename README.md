@@ -12,6 +12,7 @@ when you want to stop recording. If you use ffmpeg for anything else, such as vi
 you may get corrupted video!
 
 Once I find a way to rectify this issue, I will update the script, but for now you have been warned!
+##
 
 Alright, with that out of the way, let us continue with the fun stuff.
 
