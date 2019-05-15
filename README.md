@@ -6,7 +6,16 @@ The general idea was to make it function somewhat similarly to Nvidia Shadowplay
 but I also made some modifications that I thought were necessary for my personal use, 
 such as recording audio and video separately.
 
-Of course, as they are it's nothing more than a script to start and stop recording,
+## WARNING
+This script detects recording activity based on ffmpeg, and as such it terminates all ffmpeg processes
+when you want to stop recording. If you use ffmpeg for anything else, such as video encoding and you stop this script,
+you may get corrupted video!
+
+Once I find a way to rectify this issue, I will update the script, but for now you have been warned!
+
+Alright, with that out of the way, let us continue with the fun stuff.
+
+As it is it's nothing more than a script to start and stop recording,
 in order for it to behave like Shadowplay, we need to add some keybindings.
 
 Since I'm using i3, I'll show
