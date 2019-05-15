@@ -7,7 +7,8 @@ but I also made some modifications that I thought were necessary for my personal
 such as recording audio and video separately.
 
 Of course, as they are it's nothing more than a script to start and stop recording,
-in order for it to behave like Shadowplay, I've added some keybindings. 
+in order for it to behave like Shadowplay, we need to add some keybindings.
+
 Since I'm using i3, I'll show
 you how to configure it for that, but other window managers shouldn't be too hard to configure either.
 
@@ -16,41 +17,31 @@ In my i3 config I have it set like this:
 ```bash
 
 # RECORDING
-bindsym --release Mod1+F9 exec --no-startup-id record --all   && exec pkill -RTMIN+2 i3blocks
-bindsym --release Mod1+F8 exec --no-startup-id record --audio && exec pkill -RTMIN+3 i3blocks
+bindsym Mod1+F9 exec --no-startup-id record -all
 ```
 
-So now that we have the scripts bound to hotkeys, we should be pretty much set, right?
+So now we got the recording script bound to the same default hotkey as Shadowplay. We should be pretty much done, right?
 
 Not quite, now we need some kind of feedback to know whether or not we are actually recording.
-If you're familiar with i3 and i3blocks, then you probably already know what those lines do, if not
-then I'll explain briefly.
 
-The first part just binds the keys to the script, so we don't have to type it manually in a terminal,
-the second part will signal i3blocks each time the keys are pressed. According to that signal we can execute
-yet another script to display if we are recording or not.
+Now we will have to integrate the script with some kind of system monitor or notification daemon.
+For this particular script, I use i3bar with i3blocks, however I may add notifications for it in the future as well.
 
-Now time to integrate our recording scripts into i3blocks!
-
-Blocklets in i3blocks config:
+Here's the blocklet in my i3blocks config:
 
 ```
-[audio_recording]
-command=~/.config/i3blocks/blocklets/recording --audio
-align=center
-color=#4286f4
-separator=false
-signal=3
-
-[video_recording]
-command=~/.config/i3blocks/blocklets/recording --all
+[record]
+command=cat /tmp/video-recording.record
 align=center
 color=#F44242
 separator=false
+separator_block_width=25
 signal=2
 ```
 
-One change I would like to make is to avoid using a temporary file as a variable, but I haven't found a solution for that yet.
+With that done, we are ready to display whether or not we are recording by pressing Alt+F9 (or your preferred hotkey if
+you changed it.)
+
 
 And here's the finished product.
 
