@@ -46,10 +46,8 @@ you changed it.)
 And here's the finished product.
 
 Idle: 
-![normal](https://user-images.githubusercontent.com/25163730/57560176-01370500-737d-11e9-96e6-39c79481c99f.jpg)
-
-Recording Audio: 
-![audio](https://user-images.githubusercontent.com/25163730/57560192-1f046a00-737d-11e9-84ef-b995f9039d5c.jpg)
+![idle_bar](https://user-images.githubusercontent.com/25163730/57745737-35386000-76c6-11e9-83a2-94013cd2521f.jpg)
 
 Recording: 
-![recording](https://user-images.githubusercontent.com/25163730/57560204-304d7680-737d-11e9-96cc-a99ed2395dc7.jpg)
+![recording_bar](https://user-images.githubusercontent.com/25163730/57745738-36698d00-76c6-11e9-8dcf-712f93646fce.jpg)
+
