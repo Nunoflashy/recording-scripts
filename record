@@ -1,0 +1,106 @@
+#!/bin/bash
+
+# Get the active window class name
+WM_CLASS=$(xprop -id $(xdotool getwindowfocus) | grep WM_CLASS | awk '{print $4}')
+
+# Get the window's instance name
+WM_NAME=$(xdotool getwindowfocus getwindowname)
+
+# Parse in a readable format
+instanceName=${WM_NAME//'/'/'_'}
+className=${WM_CLASS//'"'}
+
+# Get whether or not we're recording
+recording=$(pidof ffmpeg)
+
+# If we can't retrieve the window name, the target is most likely the desktop
+if [[ -z $className || -z $instanceName ]]; then
+	instanceName="Desktop"
+	className="Desktop"
+fi
+
+# Below should be the list of applications that need to use the instance name
+if [[ $className = "Wine" ]]; then
+	className=$instanceName
+fi
+
+# If the output directory doesn't exist, create it.
+if [[ ! -d "$HOME/Videos/$className" && ! $recording ]]; then
+	mkdir "$HOME/Videos/$className"
+fi
+
+function displayUsage() {
+	echo "Usage: $0 [option]
+	Options:
+	    --audio		Only record audio from the specified input
+	    --video		Only record video from the specified input
+	    --all		Record both audio and video
+	"
+}
+
+function recordAudio() {
+	ffmpeg -y \
+	-f pulse \
+	-i default \
+	-c:a flac \
+	"$HOME/Videos/$className/$instanceName $(date +"%d-%m-%Y - %T").flac"
+}
+
+function recordVideo() {
+	# Update i3blocks to show that we're currently recording
+	echo "⏺ REC" > /tmp/video-recording.record && pkill -RTMIN+2 i3blocks
+	
+	ffmpeg -y \
+	-video_size 1920x1080 \
+	-framerate 60 \
+	-f x11grab \
+	-i :0.0+1360 \
+	-c:v nvenc_h264 \
+	-b:v 50M \
+	-preset slow \
+	"$HOME/Videos/$className/$instanceName $(date +"%d-%m-%Y - %T").mkv"
+}
+
+function stopRecording() {
+	# For now we kill ffmpeg, but I'm hoping to find a better solution
+	# as this is highly unreliable if we are using ffmpeg for something else
+	# since it will kill all ffmpeg processes.
+	pkill -SIGINT ffmpeg
+	
+	# Update i3blocks saying we don't need to show anything anymore
+	echo "" > /tmp/video-recording.record && pkill -RTMIN+2 i3blocks
+}
+
+# Here, again we test if ffmpeg is running, but ideally we would want to check
+# for this specific process, and not all ffmpeg processes, need to find a way around this
+if [[ ! $recording ]]; then
+	while test $# -gt 0; do
+		case "$1" in
+			-audio)
+				recordAudio
+				break
+				;;
+			-video)
+				recordVideo
+				break
+				;;
+			-all)
+				recordAudio&
+				recordVideo&
+				break
+				;;
+			*)
+				displayUsage
+				break
+				;;
+		esac
+	done
+else
+	stopRecording
+fi
+
+
+
+
+
+
