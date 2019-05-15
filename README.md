@@ -46,7 +46,7 @@ you changed it.)
 And here's the finished product.
 
 Idle: 
-![idle_bar](https://user-images.githubusercontent.com/25163730/57745737-35386000-76c6-11e9-83a2-94013cd2521f.jpg)
+![idle_bar](https://user-images.githubusercontent.com/25163730/57745841-a0823200-76c6-11e9-8a21-df5c8989f6f7.jpg)
 
 Recording: 
 ![recording_bar](https://user-images.githubusercontent.com/25163730/57745738-36698d00-76c6-11e9-8dcf-712f93646fce.jpg)
