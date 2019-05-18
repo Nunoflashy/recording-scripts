@@ -32,9 +32,9 @@ fi
 function displayUsage() {
 	echo "Usage: $0 [option]
 	Options:
-	    --audio		Only record audio from the specified input
-	    --video		Only record video from the specified input
-	    --all		Record both audio and video
+	    -audio		Only record audio from the specified input
+	    -video		Only record video from the specified input
+	    -all		Record both audio and video
 	"
 }
 
